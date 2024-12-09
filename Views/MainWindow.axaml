@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:WildflyViewLog.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="WildflyViewLog.Views.MainWindow"
+        xmlns:viewModels="clr-namespace:WildflyViewLog.ViewModels"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/icono.ico"
+        WindowStartupLocation="CenterScreen"
+        Width="450" Height="250"
+        Title="WildflyViewLog by Alama">
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel />
+	</Design.DataContext>
+
+	<!--<DockPanel LastChildFill="True">
+		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+			<Button Command="{Binding OpenFileCommand}">Open File</Button>
+			<Button Command="{Binding SaveFileCommand}">Save File</Button>
+		</StackPanel>
+		<ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding ErrorMessages}" />
+		<TextBox Text="{Binding FileText, Mode=TwoWay}"
+                 AcceptsReturn="True"
+                 AcceptsTab="True" />
+	</DockPanel>-->
+	<StackPanel>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto">
+			<!-- Título -->
+			<TextBlock Grid.ColumnSpan="2"
+					   Text="LOG VIEWER"
+					   HorizontalAlignment="Center"
+					   Margin="0,10,0,10"
+					   FontSize="16"
+					   FontWeight="Bold" />
+
+			<!-- Campo de ruta y botón -->
+			<TextBox Grid.Row="1"
+					 Grid.Column="0"
+					 Name="PathTextBox"
+					 Watermark="FilePath"
+					 Text="{Binding FilePath, Mode=TwoWay}"
+					 Margin="5"
+					 IsEnabled="False" />
+			<Button Grid.Row="1"
+					Grid.Column="1"
+					Command="{Binding OpenFileCommand}"
+					Content="Abrir"
+					Margin="5"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center" />
+
+			<!-- ComboBox y botón -->
+			<ComboBox Grid.Row="2"
+					  Grid.Column="0"
+					  Name="SelectionLog"
+					  ItemsSource="{Binding SelectionItems}"
+					  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+					  Margin="5"
+					  HorizontalAlignment="Stretch" />
+			<Button Grid.Row="2" Grid.Column="1" Command="{Binding SaveFileCommand}" Content="Guardar" Margin="5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+		</Grid>
+		<!--Separador-->
+		<TextBlock Text="-Filtrar-"
+				   HorizontalAlignment="Center"
+				   Margin="0,10,0,10" FontSize="14"
+				   FontWeight="Bold" />
+
+		<Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *">
+
+			<TextBox Grid.Row="0"
+					 Grid.Column="0"
+					 Name="SearchTextBox"
+					 Watermark="Buscar desde"
+					 Text="{Binding SearchInFilePath, Mode=TwoWay}"
+					 Margin="5" />
+			<CheckBox Grid.Row="0"
+					  Grid.Column="1"
+					  IsChecked="{Binding CheckRelated}">Descargar Relacionados</CheckBox>
+		</Grid>
+	</StackPanel>
+</Window>
