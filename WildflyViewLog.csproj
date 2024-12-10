@@ -31,4 +31,13 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\HomeView.axaml.cs">
+      <DependentUpon>HomeView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MergeView.axaml.cs">
+      <DependentUpon>MergeView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

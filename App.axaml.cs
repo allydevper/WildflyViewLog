@@ -47,19 +47,10 @@ namespace WildflyViewLog
 
         private void ConfigureServices(IServiceCollection services, IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Registrar servicios
-            //services.AddSingleton<IFilePickerService>(provider =>
-            //{
-            //    var storageProvider = desktop.MainWindow?.StorageProvider;
-            //    if (storageProvider == null)
-            //        throw new InvalidOperationException("StorageProvider is not available.");
-
-            //    return new FilePickerService(storageProvider);
-            //});
-
             // Registrar ViewModels
             services.AddSingleton<FilePickerService>();
             services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<HomeViewModel>();
         }
 
         private void DisableAvaloniaDataAnnotationValidation()
