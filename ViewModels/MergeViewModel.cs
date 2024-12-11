@@ -13,6 +13,7 @@ namespace WildflyViewLog.ViewModels
 
         public MergeViewModel()
         {
+            FileList.Add("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\MultitaskManagerBCD_20241203.txt");
         }
 
         [RelayCommand]
