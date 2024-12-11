@@ -1,19 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using WildflyViewLog.Models;
 using WildflyViewLog.Services;
 
 namespace WildflyViewLog.ViewModels
 {
     public partial class MergeViewModel : ViewModelBase
     {
-        public ObservableCollection<string> FileList { get; } = new ObservableCollection<string>();
+        public ObservableCollection<MergePath> FileList { get; } = new ObservableCollection<MergePath>();
 
         public MergeViewModel()
         {
-            FileList.Add("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\MultitaskManagerBCD_20241203.txt");
+
+            //FileList.Add("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\MultitaskManagerBCD_20241203.txt");
         }
 
         [RelayCommand]
@@ -26,7 +30,11 @@ namespace WildflyViewLog.ViewModels
 
                 foreach (var item in files)
                 {
-                    FileList.Add(item.Path.AbsolutePath);
+                    FileList.Add(new MergePath()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Path = item.Path.AbsolutePath
+                    });
                 }
             }
             catch (Exception ex)
@@ -39,12 +47,22 @@ namespace WildflyViewLog.ViewModels
         {
             try
             {
-                FileList.Add(file);
+                FileList.Add(new MergePath()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Path = file
+                });
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        private void DeleteFile(MergePath file)
+        {
+            FileList.Remove(file);
         }
     }
 }

@@ -63,10 +63,12 @@
 					<StackPanel Margin="0"
 								Orientation="Horizontal"
 								HorizontalAlignment="Stretch">
-						<Button Name="DeleteButton"
+						<Button Command="{Binding $parent[ListBox].((vm:MergeViewModel)DataContext).DeleteFileCommand}"
+								CommandParameter="{Binding .}"
+								Name="DeleteButton"
 								Content="Borrar"
 								Background="#2f5690" />
-						<TextBlock Text="{Binding ., Converter={StaticResource FileNameTruncator}}"
+						<TextBlock Text="{Binding Path, Converter={StaticResource FileNameTruncator}}"
                                    FontSize="14"
                                    Margin="10,5"
                                    Foreground="White" />
