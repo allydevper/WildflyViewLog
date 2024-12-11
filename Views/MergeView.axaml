@@ -30,7 +30,7 @@
 				<TextBlock Grid.ColumnSpan="2"
 						   Text="DRAG AND DROP"
 						   HorizontalAlignment="Center"
-						   Margin="0,20,0,0"
+						   Margin="0,10,0,0"
 						   FontSize="16"
 						   Foreground="Black"
 						   FontWeight="Bold" />
@@ -45,7 +45,7 @@
 						HorizontalAlignment="Center"
 						Content="Seleccionar Archivos"
 						Command="{Binding OpenFileCommand}"
-						Margin="0,0,0,20"
+						Margin="0,0,0,10"
 						Background="#2f5690" />
 			</StackPanel>
 		</Border>
@@ -76,5 +76,12 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
+		
+		<Button Name="DeleteButton"
+				HorizontalAlignment="Center"
+				Content="Combinar"
+				Command="{Binding MergeFileCommand}"
+				Margin="0,10,0,0"
+				Background="#2f5690" />
 	</StackPanel>
 </UserControl>

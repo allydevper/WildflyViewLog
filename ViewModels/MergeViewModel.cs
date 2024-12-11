@@ -2,9 +2,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using WildflyViewLog.Models;
 using WildflyViewLog.Services;
 
@@ -16,8 +17,11 @@ namespace WildflyViewLog.ViewModels
 
         public MergeViewModel()
         {
-
-            //FileList.Add("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\MultitaskManagerBCD_20241203.txt");
+            FileList.Add(new MergePath()
+            {
+                Id = "1",
+                Path = "C:/Users/WILMER/Desktop/Proyects/joinFolder/robotTouchlessAmadeus.txt"
+            });
         }
 
         [RelayCommand]
@@ -63,6 +67,26 @@ namespace WildflyViewLog.ViewModels
         private void DeleteFile(MergePath file)
         {
             FileList.Remove(file);
+        }
+
+        [RelayCommand]
+        private async Task MergeFileAsync()
+        {
+            var folder = await FilePickerService.SaveFolderAsync();
+            if (folder is null) return;
+
+            StringBuilder mergedText = new();
+
+            foreach (MergePath mergePath in FileList.ToList())
+            {
+                string fileContent = File.ReadAllText(mergePath.Path);
+                mergedText.Append(fileContent);
+            }
+
+            string filePath = Path.Combine(folder.Path.AbsolutePath, $"merge.txt");
+            File.WriteAllText(filePath, mergedText.ToString());
+
+            FileList.Clear();
         }
     }
 }
