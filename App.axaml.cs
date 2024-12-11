@@ -1,12 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using WildflyViewLog.Services;
 using WildflyViewLog.ViewModels;
 using WildflyViewLog.Views;
 
@@ -48,7 +46,7 @@ namespace WildflyViewLog
         private void ConfigureServices(IServiceCollection services, IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Registrar ViewModels
-            services.AddSingleton<FilePickerService>();
+            //services.AddSingleton<FilePickerService>();
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<HomeViewModel>();
         }

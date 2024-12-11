@@ -3,11 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WildflyViewLog.Models;
@@ -17,8 +15,6 @@ namespace WildflyViewLog.ViewModels
 {
     public partial class HomeViewModel : ViewModelBase
     {
-        private readonly FilePickerService _filePickerService;
-
         [ObservableProperty] private string _searchInFilePath = "";
         [ObservableProperty] private string _filePath = "";
         [ObservableProperty] private ConcurrentBag<(string FilePath, string Message)> _dataLog = [];
@@ -29,18 +25,13 @@ namespace WildflyViewLog.ViewModels
         {
         }
 
-        public HomeViewModel(FilePickerService filePickerService)
-        {
-            _filePickerService = filePickerService;
-        }
-
         [RelayCommand]
         private async Task OpenFile(CancellationToken token)
         {
             SelectionItems.Clear();
             try
             {
-                var file = await _filePickerService.OpenFileAsync();
+                var file = await FilePickerService.OpenJsonFileAsync();
                 if (file is null) return;
 
                 FilePath = file.Path.AbsolutePath;
@@ -67,7 +58,7 @@ namespace WildflyViewLog.ViewModels
 
                 if (CheckRelated)
                 {
-                    var folder = await _filePickerService.SaveFolderAsync();
+                    var folder = await FilePickerService.SaveFolderAsync();
                     if (folder is null) return;
 
                     string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
@@ -95,7 +86,7 @@ namespace WildflyViewLog.ViewModels
                 else
                 {
                     string nombreSinExtension = Path.GetFileNameWithoutExtension(SelectedItem);
-                    var file = await _filePickerService.SaveFileAsync(nombreSinExtension);
+                    var file = await FilePickerService.SaveFileAsync(nombreSinExtension);
                     if (file is null) return;
 
                     var newdata = DataLog

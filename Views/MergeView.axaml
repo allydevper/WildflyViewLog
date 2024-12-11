@@ -3,18 +3,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WildflyViewLog.Views.MergeView">
+             x:Class="WildflyViewLog.Views.MergeView"
+			 xmlns:vm="using:WildflyViewLog.ViewModels"
+			 xmlns:viewModels="clr-namespace:WildflyViewLog.ViewModels"
+			 x:DataType="vm:MergeViewModel">
 
-	<StackPanel>
-		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto">
+	<Design.DataContext>
+		<vm:MergeViewModel />
+	</Design.DataContext>
 
-			<TextBlock Grid.ColumnSpan="2"
-					   Text="MERGE FILES"
-					   HorizontalAlignment="Center"
-					   Margin="0,10,0,10"
-					   FontSize="16"
-					   FontWeight="Bold" />
+	<StackPanel Margin="10">
+		<Button Name="FileButton"
+				Content="Seleccionar Archivos"
+				Width="150"
+				Command="{Binding OpenFileCommand}"
+				Margin="0,0,0,20"
+				Background="#2f5690" />
 
-		</Grid>
+		<Border Name="FileListItem"
+				DragDrop.DragOver="OnDragOver"
+				DragDrop.Drop="OnDrop"
+				DragDrop.AllowDrop="True"
+				BorderBrush="White"
+				BorderThickness="4">
+			<ListBox Name="FileListView"
+					 ItemsSource="{Binding FileList}"
+					 Margin="0,0,0,0"
+					 Height="150"
+					 Background="Gray"
+					 BorderThickness="0">
+				<!--<ListBox.ItemTemplate>
+				<DataTemplate>
+
+					<StackPanel Orientation="Horizontal" Spacing="10">
+						<TextBlock Text="{Binding}" VerticalAlignment="Center" />
+						<Button Content="Eliminar" Click="OnRemoveFileClick" Tag="{Binding}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>-->
+			</ListBox>
+		</Border>
 	</StackPanel>
 </UserControl>

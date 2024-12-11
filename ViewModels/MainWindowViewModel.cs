@@ -6,8 +6,6 @@ namespace WildflyViewLog.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        private readonly FilePickerService _filePickerService;
-
         [ObservableProperty]
         private bool _isPaneOpen = false;
 
@@ -16,12 +14,7 @@ namespace WildflyViewLog.ViewModels
 
         public MainWindowViewModel()
         {
-        }
-
-        public MainWindowViewModel(FilePickerService filePickerService)
-        {
-            _filePickerService = filePickerService;
-            _currentPage = new HomeViewModel(filePickerService);
+            _currentPage = new HomeViewModel();
         }
 
         [RelayCommand]
@@ -34,7 +27,7 @@ namespace WildflyViewLog.ViewModels
         {
             CurrentPage = pageName switch
             {
-                "Home" => new HomeViewModel(_filePickerService),
+                "Home" => new HomeViewModel(),
                 "CombinarTxt" => new MergeViewModel(),
                 _ => CurrentPage
             };
