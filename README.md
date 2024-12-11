@@ -9,6 +9,7 @@
 - **Interfaz intuitiva**: Permite cargar y procesar archivos JSON fácilmente.
 - **Guardar información**: Extrae información específica y la guarda en formato TXT.
 - **Filtros avanzados**: Incluye opciones para buscar contenido dentro del JSON y descargar archivos relacionados.
+- **Combinar txt**: Incluye opcion para combinar archivos formato TXT.
 - **Compatibilidad multiplataforma**: Funciona en Windows, macOS y Linux gracias a AvaloniaUI.
 
 ## Requisitos del sistema
