@@ -17,11 +17,11 @@ namespace WildflyViewLog.ViewModels
 
         public MergeViewModel()
         {
-            FileList.Add(new MergePath()
-            {
-                Id = "1",
-                Path = "C:/Users/WILMER/Desktop/Proyects/joinFolder/robotTouchlessAmadeus.txt"
-            });
+            //FileList.Add(new MergePath()
+            //{
+            //    Id = "1",
+            //    Path = "C:/Users/WILMER/Desktop/Proyects/joinFolder/robotTouchlessAmadeus.txt"
+            //});
         }
 
         [RelayCommand]
@@ -72,6 +72,9 @@ namespace WildflyViewLog.ViewModels
         [RelayCommand]
         private async Task MergeFileAsync()
         {
+            if (FileList.Count == 0)
+                return;
+
             var folder = await FilePickerService.SaveFolderAsync();
             if (folder is null) return;
 
