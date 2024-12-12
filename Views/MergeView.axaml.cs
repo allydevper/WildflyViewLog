@@ -27,7 +27,6 @@ public partial class MergeView : UserControl
                 border.BorderBrush = Brushes.DarkRed;
                 e.DragEffects = DragDropEffects.None;
             }
-
         }
     }
 

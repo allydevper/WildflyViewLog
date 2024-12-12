@@ -6,7 +6,7 @@ namespace WildflyViewLog.ViewModels
 {
     public partial class ViewModelBase : ObservableObject
     {
-        public ObservableCollection<string> SelectionItems { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> SelectionItems { get; set; } = [];
 
         [ObservableProperty] private string _selectedItem = "";
         public bool CheckRelated { get; set; }

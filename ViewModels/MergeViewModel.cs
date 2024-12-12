@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using MsBox.Avalonia;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WildflyViewLog.Enum;
 using WildflyViewLog.Models;
 using WildflyViewLog.Services;
 
@@ -13,15 +15,10 @@ namespace WildflyViewLog.ViewModels
 {
     public partial class MergeViewModel : ViewModelBase
     {
-        public ObservableCollection<MergePath> FileList { get; } = new ObservableCollection<MergePath>();
+        public ObservableCollection<MergePath> FileList { get; } = [];
 
         public MergeViewModel()
         {
-            //FileList.Add(new MergePath()
-            //{
-            //    Id = "1",
-            //    Path = "C:/Users/WILMER/Desktop/Proyects/joinFolder/robotTouchlessAmadeus.txt"
-            //});
         }
 
         [RelayCommand]
@@ -43,24 +40,17 @@ namespace WildflyViewLog.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                await MessageBoxManager.GetMessageBoxStandard(MessageType.Error.ToString(), ex.Message).ShowAsync();
             }
         }
 
         public void AddFile(string file)
         {
-            try
+            FileList.Add(new MergePath()
             {
-                FileList.Add(new MergePath()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Path = file
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
+                Id = Guid.NewGuid().ToString(),
+                Path = file
+            });
         }
 
         [RelayCommand]
@@ -72,24 +62,31 @@ namespace WildflyViewLog.ViewModels
         [RelayCommand]
         private async Task MergeFileAsync()
         {
-            if (FileList.Count == 0)
-                return;
-
-            var folder = await FilePickerService.SaveFolderAsync();
-            if (folder is null) return;
-
-            StringBuilder mergedText = new();
-
-            foreach (MergePath mergePath in FileList.ToList())
+            try
             {
-                string fileContent = File.ReadAllText(mergePath.Path);
-                mergedText.Append(fileContent);
+                if (FileList.Count == 0)
+                    return;
+
+                var folder = await FilePickerService.SaveFolderAsync();
+                if (folder is null) return;
+
+                StringBuilder mergedText = new();
+
+                foreach (MergePath mergePath in FileList.ToList())
+                {
+                    string fileContent = File.ReadAllText(mergePath.Path);
+                    mergedText.Append(fileContent);
+                }
+
+                string filePath = Path.Combine(folder.Path.AbsolutePath, $"merge.txt");
+                File.WriteAllText(filePath, mergedText.ToString());
+
+                FileList.Clear();
             }
-
-            string filePath = Path.Combine(folder.Path.AbsolutePath, $"merge.txt");
-            File.WriteAllText(filePath, mergedText.ToString());
-
-            FileList.Clear();
+            catch (Exception ex)
+            {
+                await MessageBoxManager.GetMessageBoxStandard(MessageType.Error.ToString(), ex.Message).ShowAsync();
+            }
         }
     }
 }

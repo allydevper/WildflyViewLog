@@ -10,17 +10,17 @@ namespace WildflyViewLog.Models
     public class Labels
     {
         [JsonProperty("agent.googleapis.com/log_file_path")]
-        public string FilePath { get; set; }
+        public required string FilePath { get; set; }
     }
 
     public class JsonPayload
     {
-        public string Message { get; set; }
+        public required string Message { get; set; }
     }
 
     public class WildflyData
     {
-        public JsonPayload JsonPayload { get; set; }
-        public Labels Labels { get; set; }
+        public required JsonPayload JsonPayload { get; set; }
+        public required Labels Labels { get; set; }
     }
 }

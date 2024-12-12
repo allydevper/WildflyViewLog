@@ -8,7 +8,7 @@ namespace WildflyViewLog.Models
 {
     public class MergePath
     {
-        public string Id { get; set; }
-        public string Path { get; set; }
+        public required string Id { get; set; }
+        public required string Path { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MsBox.Avalonia;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WildflyViewLog.Enum;
 using WildflyViewLog.Models;
 using WildflyViewLog.Services;
 
@@ -18,7 +20,6 @@ namespace WildflyViewLog.ViewModels
         [ObservableProperty] private string _searchInFilePath = "";
         [ObservableProperty] private string _filePath = "";
         [ObservableProperty] private ConcurrentBag<(string FilePath, string Message)> _dataLog = [];
-
         [ObservableProperty] private string _logPathJson = "/opt/wildfly/standalone/log";
 
         public HomeViewModel()
@@ -44,7 +45,7 @@ namespace WildflyViewLog.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                await MessageBoxManager.GetMessageBoxStandard(MessageType.Error.ToString(), ex.Message).ShowAsync();
             }
         }
 
@@ -102,7 +103,7 @@ namespace WildflyViewLog.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                await MessageBoxManager.GetMessageBoxStandard(MessageType.Error.ToString(), ex.Message).ShowAsync();
             }
         }
 
@@ -110,28 +111,16 @@ namespace WildflyViewLog.ViewModels
         {
             var data = new ConcurrentBag<(string FilePath, string Message)>();
 
-            try
+            foreach (var line in File.ReadLines(path.AbsolutePath))
             {
-                foreach (var line in File.ReadLines(path.AbsolutePath))
+                if (!string.IsNullOrWhiteSpace(line))
                 {
-                    if (!string.IsNullOrWhiteSpace(line))
+                    var val = JsonConvert.DeserializeObject<WildflyData>(line);
+                    if (val != null)
                     {
-                        var val = JsonConvert.DeserializeObject<WildflyData>(line);
-                        if (val != null)
-                        {
-                            data.Add((val.Labels.FilePath.Replace(logPathJson, ""), val.JsonPayload.Message));
-                        }
+                        data.Add((val.Labels.FilePath.Replace(logPathJson, ""), val.JsonPayload.Message));
                     }
                 }
-
-                foreach (var val in data)
-                {
-                    Console.WriteLine($"Name: {val}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
             }
 
             return data;
