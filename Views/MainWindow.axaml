@@ -10,7 +10,7 @@
         Icon="/Assets/icono.ico"
         WindowStartupLocation="CenterScreen"
         Width="580" Height="370"
-        Title="WildflyViewLog by Alama">
+        Title="WildflyViewLog by Allydevper">
 
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
@@ -18,7 +18,7 @@
 
 	<SplitView IsPaneOpen="{Binding IsPaneOpen}"
 			   OpenPaneLength="150"
-			   CompactPaneLength="45"
+			   CompactPaneLength="44"
 			   DisplayMode="CompactInline"
 			   Background="#1e1e1e"
 			   PaneBackground="#1e1e1e">
@@ -44,7 +44,7 @@
 					<ListBox.Styles>
 						<Style Selector="ListBoxItem">
 							<Setter Property="Padding"
-									Value="9 8">
+									Value="8 8">
 							</Setter>
 						</Style>
 					</ListBox.Styles>
