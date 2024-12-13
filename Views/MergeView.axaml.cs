@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using System;
 using System.Linq;
 using WildflyViewLog.ViewModels;
 
@@ -40,7 +41,7 @@ public partial class MergeView : UserControl
             {
                 foreach (var file in files)
                 {
-                    viewModel.AddFile(file);
+                    viewModel.AddFile(Uri.UnescapeDataString(file));
                 }
             }
         }

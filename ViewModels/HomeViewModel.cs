@@ -35,9 +35,9 @@ namespace WildflyViewLog.ViewModels
                 var file = await FilePickerService.OpenJsonFileAsync();
                 if (file is null) return;
 
-                FilePath = file.Path.AbsolutePath;
+                FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
 
-                DataLog = GetSelectData(file.Path, LogPathJson);
+                DataLog = GetSelectData(FilePath, LogPathJson);
                 foreach (var item in DataLog.Select(s => s.FilePath).Distinct().Order())
                 {
                     SelectionItems.Add(item);
@@ -63,7 +63,7 @@ namespace WildflyViewLog.ViewModels
                     if (folder is null) return;
 
                     string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
-                    string subfolderPath = Path.Combine(folder.Path.AbsolutePath, timestamp);
+                    string subfolderPath = Path.Combine(Uri.UnescapeDataString(folder.Path.AbsolutePath), timestamp);
 
                     string rutaCarpeta = (Path.GetDirectoryName(SelectedItem) ?? "").Remove(0, 1);
 
@@ -107,11 +107,11 @@ namespace WildflyViewLog.ViewModels
             }
         }
 
-        private static ConcurrentBag<(string FilePath, string Message)> GetSelectData(Uri path, string logPathJson)
+        private static ConcurrentBag<(string FilePath, string Message)> GetSelectData(String path, string logPathJson)
         {
             var data = new ConcurrentBag<(string FilePath, string Message)>();
 
-            foreach (var line in File.ReadLines(path.AbsolutePath))
+            foreach (var line in File.ReadLines(path))
             {
                 if (!string.IsNullOrWhiteSpace(line))
                 {

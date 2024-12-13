@@ -34,7 +34,7 @@ namespace WildflyViewLog.ViewModels
                     FileList.Add(new MergePath()
                     {
                         Id = Guid.NewGuid().ToString(),
-                        Path = item.Path.AbsolutePath
+                        Path = Uri.UnescapeDataString(item.Path.AbsolutePath)
                     });
                 }
             }
@@ -78,10 +78,12 @@ namespace WildflyViewLog.ViewModels
                     mergedText.Append(fileContent);
                 }
 
-                string filePath = Path.Combine(folder.Path.AbsolutePath, $"merge.txt");
+                string filePath = Path.Combine(Uri.UnescapeDataString(folder.Path.AbsolutePath), $"merge.txt");
                 File.WriteAllText(filePath, mergedText.ToString());
 
                 FileList.Clear();
+
+                await MessageBoxManager.GetMessageBoxStandard(MessageType.Information.ToString(), "Archivo Guardado.").ShowAsync();
             }
             catch (Exception ex)
             {
