@@ -71,7 +71,7 @@
 					 Margin="5" />
 			<CheckBox Grid.Row="0"
 					  Grid.Column="1"
-					  IsChecked="{Binding CheckRelated}">Incluir Subcarpeta</CheckBox>
+					  IsChecked="{Binding CheckRelated}">Incluir Carpeta base</CheckBox>
 		</Grid>
 	</StackPanel>
 </UserControl>

@@ -65,7 +65,7 @@ namespace WildflyViewLog.ViewModels
                     string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
                     string subfolderPath = Path.Combine(Uri.UnescapeDataString(folder.Path.AbsolutePath), timestamp);
 
-                    string rutaCarpeta = (Path.GetDirectoryName(SelectedItem) ?? "").Remove(0, 1);
+                    string rutaCarpeta = (Path.GetDirectoryName(SelectedItem) ?? "").Remove(0, 1).Split("\\")[0];
 
                     foreach (var _selectItem in SelectionItems.Where(s => s.Contains(rutaCarpeta)))
                     {
