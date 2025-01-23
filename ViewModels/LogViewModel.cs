@@ -33,5 +33,5 @@ public class LogViewModel : ViewModelBase
 
 public class LogEntry
 {
-    public string Message { get; set; }
+    public required string Message { get; set; }
 }
