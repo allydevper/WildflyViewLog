@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using WildflyViewLog.Services;
+using System.Windows.Input;
 
 namespace WildflyViewLog.ViewModels
 {
@@ -12,9 +12,12 @@ namespace WildflyViewLog.ViewModels
         [ObservableProperty]
         private ViewModelBase _currentPage;
 
+        public ICommand NavigateToLogsCommand { get; }
+
         public MainWindowViewModel()
         {
             _currentPage = new HomeViewModel();
+            NavigateToLogsCommand = new RelayCommand(NavigateToLogs);
         }
 
         [RelayCommand]
@@ -31,6 +34,11 @@ namespace WildflyViewLog.ViewModels
                 "CombinarTxt" => new MergeViewModel(),
                 _ => CurrentPage
             };
+        }
+
+        private void NavigateToLogs()
+        {
+            CurrentPage = new LogViewModel();
         }
     }
 }

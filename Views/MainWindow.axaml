@@ -79,6 +79,7 @@
 						</StackPanel>
 					</ListBoxItem>
 				</ListBox>
+				<Button Content="Ver Logs" Command="{Binding NavigateToLogsCommand}" />
 			</StackPanel>
 		</SplitView.Pane>
 		<SplitView.Content>
