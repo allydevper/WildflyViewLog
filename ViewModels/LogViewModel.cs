@@ -6,11 +6,11 @@ namespace WildflyViewLog.ViewModels;
 
 public class LogViewModel : ViewModelBase
 {
-    public ObservableCollection<string> Logs { get; set; }
+    public ObservableCollection<LogEntry> Logs { get; set; }
 
     public LogViewModel()
     {
-        Logs = new ObservableCollection<string>();
+        Logs = new ObservableCollection<LogEntry>();
         LoadLogs();
     }
 
@@ -18,15 +18,20 @@ public class LogViewModel : ViewModelBase
     {
         try
         {
-            var logLines = File.ReadAllLines("ruta/a/tu/archivo/de/logs.txt");
+            var logLines = File.ReadAllLines("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\issuer.txt");
             foreach (var line in logLines)
             {
-                Logs.Add(line);
+                Logs.Add(new LogEntry { Message = line });
             }
         }
         catch (Exception ex)
         {
-            Logs.Add($"Error al cargar los logs: {ex.Message}");
+            Logs.Add(new LogEntry { Message = $"Error al cargar los logs: {ex.Message}" });
         }
     }
+}
+
+public class LogEntry
+{
+    public string Message { get; set; }
 }
