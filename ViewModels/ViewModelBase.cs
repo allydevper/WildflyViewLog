@@ -10,6 +10,7 @@ namespace WildflyViewLog.ViewModels
 
         [ObservableProperty] private string _selectedItem = "";
         public bool CheckRelated { get; set; }
+        public bool CheckSameLine { get; set; }
 
         protected ViewModelBase()
         {

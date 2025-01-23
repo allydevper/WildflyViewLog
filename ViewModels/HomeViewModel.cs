@@ -1,12 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HarfBuzzSharp;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WildflyViewLog.Enum;
@@ -95,6 +98,9 @@ namespace WildflyViewLog.ViewModels
                         .Select(s => s.Message).Reverse()
                         .SkipWhile(s => !s.Contains(SearchInFilePath, StringComparison.OrdinalIgnoreCase));
 
+                    if (CheckSameLine)
+                        newdata = GetFormarData(newdata);
+
                     if (newdata.Any())
                     {
                         File.WriteAllLines(file.Path.AbsolutePath, newdata);
@@ -105,6 +111,44 @@ namespace WildflyViewLog.ViewModels
             {
                 await MessageBoxManager.GetMessageBoxStandard(MessageType.Error.ToString(), ex.Message).ShowAsync();
             }
+        }
+
+        private static List<string> GetFormarData(IEnumerable<string> lines)
+        {
+            List<string> formattedLines = [];
+            StringBuilder buffer = new();
+
+            foreach (var line in lines)
+            {
+                if (IsLineWithDate(line))
+                {
+                    if (buffer.Length > 0)
+                    {
+                        formattedLines[^1] += " " + buffer.ToString().Trim();
+                        buffer.Clear();
+                    }
+                    formattedLines.Add(line);
+                }
+                else
+                {
+                    buffer.Append(line.Trim() + " ");
+                }
+            }
+
+            if (buffer.Length > 0 && formattedLines.Count > 0)
+            {
+                formattedLines[^1] += " " + buffer.ToString().Trim();
+            }
+            return formattedLines;
+        }
+
+        private static bool IsLineWithDate(string line)
+        {
+            if (line.Length >= 10 && line[..10].Contains('-'))
+            {
+                return DateTime.TryParseExact(line[..10], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
+            }
+            return false;
         }
 
         private static ConcurrentBag<(string FilePath, string Message)> GetSelectData(String path, string logPathJson)

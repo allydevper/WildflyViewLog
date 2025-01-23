@@ -72,6 +72,10 @@
 			<CheckBox Grid.Row="0"
 					  Grid.Column="1"
 					  IsChecked="{Binding CheckRelated}">Incluir Carpeta base</CheckBox>
+			
+			<CheckBox Grid.Row="2"
+					  Grid.Column="1"
+					  IsChecked="{Binding CheckSameLine}">Concatenar response</CheckBox>
 		</Grid>
 	</StackPanel>
 </UserControl>
