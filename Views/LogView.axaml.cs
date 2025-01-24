@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using WildflyViewLog.ViewModels;
 
 namespace WildflyViewLog.Views;
@@ -10,5 +9,9 @@ public partial class LogView : UserControl
     {
         InitializeComponent();
         DataContext = new LogViewModel();
+    }
+
+    private void DataGrid_CopyingRowClipboardContent(object? sender, DataGridRowClipboardEventArgs e)
+    {
     }
 }

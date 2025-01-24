@@ -10,34 +10,37 @@
 		<StackPanel DockPanel.Dock="Top" Margin="0 0 0 10">
 			<Grid>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBox Grid.Column="0" 
+				<TextBox Grid.Column="0"
 						 Text="{Binding FilePath, Mode=TwoWay}"
 						 Margin="0 0 10 0"
 						 IsEnabled="False"
 						 Watermark="Ruta del archivo" />
-				<Button Grid.Column="1" 
+				<Button Grid.Column="1"
 						Content="Abrir Archivo"
 						Command="{Binding OpenFileCommand}"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"
 						Background="#2f5690"
-						MinWidth="150"/>
+						MinWidth="150" />
 			</Grid>
 		</StackPanel>
 		<DataGrid DockPanel.Dock="Bottom"
+				  Name="myDataGrid"
 				  ItemsSource="{Binding Logs}"
-				  AutoGenerateColumns="False" 
+				  AutoGenerateColumns="False"
 				  IsReadOnly="True"
 				  GridLinesVisibility="All"
-				  BorderThickness="1" 
+				  BorderThickness="1"
 				  BorderBrush="Gray"
+				  CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
+				  SelectionMode="Single"
 				  CanUserSortColumns="False">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="*"/>
-				<DataGridTextColumn Header="Archivo Fuente" Binding="{Binding SourceFile}" Width="200"/>
+				<DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="*" />
+				<DataGridTextColumn Header="Archivo Fuente" Binding="{Binding SourceFile}" Width="200" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</DockPanel>
