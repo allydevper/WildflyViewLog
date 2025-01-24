@@ -41,7 +41,7 @@ public partial class LogViewModel : ViewModelBase
 
             foreach (var line in formattedLines)
             {
-                Logs.Add(new LogEntry { Message = line });
+                Logs.Add(line);
 
                 if (Logs.Count % batchSize == 0)
                 {
@@ -55,9 +55,9 @@ public partial class LogViewModel : ViewModelBase
         }
     }
 
-    private static List<string> GetFormarData(IEnumerable<string> lines)
+    private static List<LogEntry> GetFormarData(IEnumerable<string> lines)
     {
-        List<string> formattedLines = [];
+        List<LogEntry> formattedEntries = [];
         StringBuilder buffer = new();
 
         foreach (var line in lines)
@@ -66,10 +66,10 @@ public partial class LogViewModel : ViewModelBase
             {
                 if (buffer.Length > 0)
                 {
-                    formattedLines[^1] += " " + buffer.ToString().Trim();
+                    formattedEntries[^1].Message += " " + buffer.ToString().Trim();
                     buffer.Clear();
                 }
-                formattedLines.Add(line);
+                formattedEntries.Add(new LogEntry { Message = line, SourceFile = "" });
             }
             else
             {
@@ -77,11 +77,34 @@ public partial class LogViewModel : ViewModelBase
             }
         }
 
-        if (buffer.Length > 0 && formattedLines.Count > 0)
+        if (buffer.Length > 0 && formattedEntries.Count > 0)
         {
-            formattedLines[^1] += " " + buffer.ToString().Trim();
+            formattedEntries[^1].Message += " " + buffer.ToString().Trim();
         }
-        return formattedLines;
+
+        List<LogEntry> newFormattedEntries = [];
+
+        foreach (var entry in formattedEntries)
+        {
+            if (entry.Message.Contains("<?"))
+            {
+                string message = entry.Message[..entry.Message.IndexOf("<?")];
+                string source = entry.Message[entry.Message.IndexOf("<?")..];
+                newFormattedEntries.Add(new LogEntry { Message = message, SourceFile = source });
+            }
+            else if(entry.Message.Contains('{'))
+            {
+                string message = entry.Message[..entry.Message.IndexOf('{')];
+                string source = entry.Message[entry.Message.IndexOf('{')..];
+                newFormattedEntries.Add(new LogEntry { Message = message, SourceFile = source });
+            }
+            else
+            {
+                newFormattedEntries.Add(entry);
+            }
+        }
+
+        return newFormattedEntries;
     }
 
     private static bool IsLineWithDate(string line)
@@ -97,4 +120,5 @@ public partial class LogViewModel : ViewModelBase
 public class LogEntry
 {
     public string Message { get; set; }
+    public string SourceFile { get; set; }
 }

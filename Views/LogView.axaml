@@ -29,11 +29,16 @@
 		</StackPanel>
 		<DataGrid DockPanel.Dock="Bottom"
 				  ItemsSource="{Binding Logs}"
-				  AutoGenerateColumns="True" 
+				  AutoGenerateColumns="False" 
 				  IsReadOnly="True"
 				  GridLinesVisibility="All"
 				  BorderThickness="1" 
-				  BorderBrush="Gray">
+				  BorderBrush="Gray"
+				  CanUserSortColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="*"/>
+				<DataGridTextColumn Header="Archivo Fuente" Binding="{Binding SourceFile}" Width="200"/>
+			</DataGrid.Columns>
 		</DataGrid>
 	</DockPanel>
 </UserControl>
