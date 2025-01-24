@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 
@@ -18,7 +19,7 @@ public class LogViewModel : ViewModelBase
     {
         try
         {
-            var logLines = File.ReadAllLines("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\issuer.txt");
+            var logLines = File.ReadAllLines("C:\\Users\\WILMER\\Desktop\\Proyects\\joinFolder\\2AEKBM.txt");
             foreach (var line in logLines)
             {
                 Logs.Add(new LogEntry { Message = line });
@@ -33,5 +34,5 @@ public class LogViewModel : ViewModelBase
 
 public class LogEntry
 {
-    public required string Message { get; set; }
+    public string Message { get; set; }
 }

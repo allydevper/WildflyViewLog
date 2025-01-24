@@ -6,8 +6,9 @@
              x:Class="WildflyViewLog.Views.LogView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="viewModels:LogViewModel">
-	<Grid>
-		<DataGrid ItemsSource="{Binding Logs}" AutoGenerateColumns="True" Margin="10"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-	</Grid>
+	<DataGrid Margin="20" ItemsSource="{Binding Logs}"
+			  AutoGenerateColumns="True" IsReadOnly="True"
+			  GridLinesVisibility="All"
+			  BorderThickness="1" BorderBrush="Gray">
+	</DataGrid>
 </UserControl>

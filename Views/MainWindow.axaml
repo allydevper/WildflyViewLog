@@ -65,23 +65,40 @@
 									Orientation="Horizontal">
 							<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
 								<Canvas Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
-									<Path Data="M14 3v4a1 1 0 0 0 1 1h4" Stroke="White" StrokeThickness="2" />
-									<Path Data="M15.5 15h5" Stroke="White" StrokeThickness="2" />
-									<Path Data="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" Stroke="White" StrokeThickness="2" />
-									<Path Data="M3.4 15h5" Stroke="White" StrokeThickness="2" />
-									<Path Data="M6 15v6" Stroke="White" StrokeThickness="2" />
-									<Path Data="M18 15v6" Stroke="White" StrokeThickness="2" />
-									<Path Data="M10 15l4 6" Stroke="White" StrokeThickness="2" />
-									<Path Data="M10 21l4 -6" Stroke="White" StrokeThickness="2" />
+									<Path Fill="Transparent" Data="M0 0h24v24H0z" />
+
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M14.5 9.5m-6.5 0a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0" />
+
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M9.5 14.5m-6.5 0a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0" />
 								</Canvas>
 							</Grid>
 							<TextBlock Text="Combinar txt" VerticalAlignment="Center" />
 						</StackPanel>
 					</ListBoxItem>
+					<ListBoxItem Tag="ViewTxt">
+						<StackPanel Spacing="9"
+									Orientation="Horizontal">
+							<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+								<Canvas Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+									<Path Fill="Transparent" Data="M0 0h24v24H0z" />
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M14 3v4a1 1 0 0 0 1 1h4" />
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M9 9l1 0" />
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M9 13l6 0" />
+									<Path Stroke="#ffffff" StrokeThickness="2"
+										  Data="M9 17l6 0" />
+								</Canvas>
+							</Grid>
+							<TextBlock Text="View txt" VerticalAlignment="Center" />
+						</StackPanel>
+					</ListBoxItem>
 				</ListBox>
-				<!--
-				<Button Content="Ver Logs" Command="{Binding NavigateToLogsCommand}" />
-				-->
 			</StackPanel>
 		</SplitView.Pane>
 		<SplitView.Content>

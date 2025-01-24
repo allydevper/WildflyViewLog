@@ -32,6 +32,7 @@ namespace WildflyViewLog.ViewModels
             {
                 "Home" => new HomeViewModel(),
                 "CombinarTxt" => new MergeViewModel(),
+                "ViewTxt" => new LogViewModel(),
                 _ => CurrentPage
             };
         }
