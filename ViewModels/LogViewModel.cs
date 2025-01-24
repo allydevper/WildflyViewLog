@@ -1,10 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MsBox.Avalonia;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using WildflyViewLog.Enum;
+using WildflyViewLog.Services;
 
 namespace WildflyViewLog.ViewModels;
 
@@ -22,14 +24,12 @@ public partial class LogViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenFile()
     {
-        if (string.IsNullOrEmpty(FilePath))
-        {
-            Logs.Add(new LogEntry { Message = "Por favor, ingrese una ruta de archivo válida." });
-            return;
-        }
-
         try
         {
+            var file = await FilePickerService.OpenTxtFileAsync(Multiple: false);
+            if (file is null) return;
+
+            FilePath = Uri.UnescapeDataString(file[0].Path.AbsolutePath);
             var logLines = await File.ReadAllLinesAsync(FilePath);
             Logs.Clear();
             foreach (var line in logLines)
@@ -39,12 +39,12 @@ public partial class LogViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            Logs.Add(new LogEntry { Message = $"Error al cargar los logs: {ex.Message}" });
+            await MessageBoxManager.GetMessageBoxStandard(MessageType.Error.ToString(), ex.Message).ShowAsync();
         }
     }
 }
 
 public class LogEntry
 {
-    public string Message { get; set; }
+    public required string Message { get; set; }
 }

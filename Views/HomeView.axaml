@@ -3,19 +3,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:WildflyViewLog.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500"
              x:Class="WildflyViewLog.Views.HomeView"
 			 xmlns:viewModels="clr-namespace:WildflyViewLog.ViewModels"
 			 x:DataType="vm:HomeViewModel">
 
 	<Design.DataContext>
-		<!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:HomeViewModel />
 	</Design.DataContext>
 
-	<StackPanel>
-		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto">
+	<DockPanel LastChildFill="True">
+		<Grid DockPanel.Dock="Top" 
+			  RowDefinitions="Auto, Auto, Auto, Auto, Auto" 
+			  ColumnDefinitions="*, Auto"
+			  Margin="10">
 
 			<TextBlock Grid.ColumnSpan="2"
 					   Text="LOG VIEWER"
@@ -27,7 +28,7 @@
 			<TextBox Grid.Row="1"
 					 Grid.Column="0"
 					 Name="PathTextBox"
-					 Watermark="FilePath"
+					 Watermark="Ruta del archivo"
 					 Text="{Binding FilePath, Mode=TwoWay}"
 					 Margin="5"
 					 IsEnabled="False" />
@@ -36,6 +37,7 @@
 					Command="{Binding OpenFileCommand}"
 					Content="Abrir"
 					Margin="5"
+					MinWidth="100"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Center"
 					Background="#2f5690" />
@@ -52,30 +54,39 @@
 					Command="{Binding SaveFileCommand}"
 					Content="Guardar"
 					Margin="5"
+					MinWidth="100"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Center"
 					Background="#2f5690" />
 		</Grid>
 
-		<TextBlock Text="Filtrar"
-				   HorizontalAlignment="Center"
-				   Margin="0,10,0,10" FontSize="14" />
+		<StackPanel DockPanel.Dock="Bottom" Margin="10">
+			<TextBlock Text="Filtrar"
+					   HorizontalAlignment="Center"
+					   Margin="0,10,0,10" 
+					   FontSize="14" />
 
-		<Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *">
+			<Grid RowDefinitions="Auto, Auto" 
+				  ColumnDefinitions="*, *">
 
-			<TextBox Grid.Row="0"
-					 Grid.Column="0"
-					 Name="SearchTextBox"
-					 Watermark="Buscar desde..."
-					 Text="{Binding SearchInFilePath, Mode=TwoWay}"
-					 Margin="5" />
-			<CheckBox Grid.Row="0"
-					  Grid.Column="1"
-					  IsChecked="{Binding CheckRelated}">Incluir Carpeta base</CheckBox>
-			
-			<CheckBox Grid.Row="2"
-					  Grid.Column="1"
-					  IsChecked="{Binding CheckSameLine}">Concatenar response</CheckBox>
-		</Grid>
-	</StackPanel>
+				<TextBox Grid.Row="0"
+						 Grid.Column="0"
+						 Name="SearchTextBox"
+						 Watermark="Buscar desde..."
+						 Text="{Binding SearchInFilePath, Mode=TwoWay}"
+						 Margin="5" />
+				<CheckBox Grid.Row="0"
+						  Grid.Column="1"
+						  Margin="5"
+						  VerticalAlignment="Center"
+						  IsChecked="{Binding CheckRelated}">Incluir Carpeta base</CheckBox>
+				
+				<CheckBox Grid.Row="1"
+						  Grid.Column="1"
+						  Margin="5"
+						  VerticalAlignment="Center"
+						  IsChecked="{Binding CheckSameLine}">Concatenar response</CheckBox>
+			</Grid>
+		</StackPanel>
+	</DockPanel>
 </UserControl>

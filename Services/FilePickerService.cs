@@ -9,7 +9,7 @@ namespace WildflyViewLog.Services
 {
     public class FilePickerService
     {
-        public static async Task<IReadOnlyList<IStorageFile>?> OpenTxtFileAsync()
+        public static async Task<IReadOnlyList<IStorageFile>?> OpenTxtFileAsync(bool Multiple = true)
         {
             if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop ||
                 desktop.MainWindow?.StorageProvider is not { } _storageProvider)
@@ -18,7 +18,7 @@ namespace WildflyViewLog.Services
             var files = await _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 Title = "Abre el JSON con el formato Wildfly",
-                AllowMultiple = true,
+                AllowMultiple = Multiple,
                 FileTypeFilter =
                 [
                     new FilePickerFileType("Text Files")

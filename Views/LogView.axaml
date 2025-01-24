@@ -14,12 +14,16 @@
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 				<TextBox Grid.Column="0" 
-						 Text="{Binding FilePath, Mode=TwoWay}" 
+						 Text="{Binding FilePath, Mode=TwoWay}"
 						 Margin="0 0 10 0"
-						 Watermark="Ingrese la ruta del archivo" />
+						 IsEnabled="False"
+						 Watermark="Ruta del archivo" />
 				<Button Grid.Column="1" 
-						Content="Abrir Archivo" 
+						Content="Abrir Archivo"
 						Command="{Binding OpenFileCommand}"
+						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Center"
+						Background="#2f5690"
 						MinWidth="150"/>
 			</Grid>
 		</StackPanel>
