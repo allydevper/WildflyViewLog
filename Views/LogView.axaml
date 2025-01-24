@@ -6,9 +6,30 @@
              x:Class="WildflyViewLog.Views.LogView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="viewModels:LogViewModel">
-	<DataGrid Margin="20" ItemsSource="{Binding Logs}"
-			  AutoGenerateColumns="True" IsReadOnly="True"
-			  GridLinesVisibility="All"
-			  BorderThickness="1" BorderBrush="Gray">
-	</DataGrid>
+	<DockPanel Margin="20" LastChildFill="True">
+		<StackPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBox Grid.Column="0" 
+						 Text="{Binding FilePath, Mode=TwoWay}" 
+						 Margin="0 0 10 0"
+						 Watermark="Ingrese la ruta del archivo" />
+				<Button Grid.Column="1" 
+						Content="Abrir Archivo" 
+						Command="{Binding OpenFileCommand}"
+						MinWidth="150"/>
+			</Grid>
+		</StackPanel>
+		<DataGrid DockPanel.Dock="Bottom"
+				  ItemsSource="{Binding Logs}"
+				  AutoGenerateColumns="True" 
+				  IsReadOnly="True"
+				  GridLinesVisibility="All"
+				  BorderThickness="1" 
+				  BorderBrush="Gray">
+		</DataGrid>
+	</DockPanel>
 </UserControl>
