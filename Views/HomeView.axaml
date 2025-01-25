@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:WildflyViewLog.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500"
+             mc:Ignorable="d" d:DesignWidth="950" d:DesignHeight="550"
              x:Class="WildflyViewLog.Views.HomeView"
 			 xmlns:viewModels="clr-namespace:WildflyViewLog.ViewModels"
 			 x:DataType="vm:HomeViewModel">
