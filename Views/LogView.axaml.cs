@@ -10,8 +10,4 @@ public partial class LogView : UserControl
         InitializeComponent();
         DataContext = new LogViewModel();
     }
-
-    private void DataGrid_CopyingRowClipboardContent(object? sender, DataGridRowClipboardEventArgs e)
-    {
-    }
 }

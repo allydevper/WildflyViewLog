@@ -54,7 +54,6 @@
 				  GridLinesVisibility="All"
 				  BorderThickness="1"
 				  BorderBrush="Gray"
-				  CopyingRowClipboardContent="DataGrid_CopyingRowClipboardContent"
 				  SelectionMode="Single"
 				  CanUserSortColumns="False">
 			<DataGrid.Columns>
