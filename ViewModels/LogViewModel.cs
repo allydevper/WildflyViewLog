@@ -15,12 +15,28 @@ namespace WildflyViewLog.ViewModels;
 public partial class LogViewModel : ViewModelBase
 {
     [ObservableProperty] private string _filePath = "";
+    [ObservableProperty] private string _messageFilter = "";
 
     public ObservableCollection<LogEntry> Logs { get; set; }
+    public ObservableCollection<LogEntry> FilteredLogs { get; set; }
 
     public LogViewModel()
     {
-        Logs = [];
+        Logs = new ObservableCollection<LogEntry>();
+        FilteredLogs = new ObservableCollection<LogEntry>();
+    }
+
+    [RelayCommand]
+    private void ApplyFilter()
+    {
+        FilteredLogs.Clear();
+        foreach (var log in Logs)
+        {
+            if (string.IsNullOrEmpty(MessageFilter) || log.Message.Contains(MessageFilter, StringComparison.OrdinalIgnoreCase))
+            {
+                FilteredLogs.Add(log);
+            }
+        }
     }
 
     [RelayCommand]
@@ -35,6 +51,7 @@ public partial class LogViewModel : ViewModelBase
 
             const int batchSize = 1000;
             Logs.Clear();
+            FilteredLogs.Clear();
 
             var allLines = await File.ReadAllLinesAsync(FilePath);
             var formattedLines = GetFormarData(allLines);
@@ -42,6 +59,7 @@ public partial class LogViewModel : ViewModelBase
             foreach (var line in formattedLines)
             {
                 Logs.Add(line);
+                FilteredLogs.Add(line);
 
                 if (Logs.Count % batchSize == 0)
                 {

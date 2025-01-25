@@ -9,29 +9,48 @@
 	<DockPanel Margin="20" LastChildFill="True">
 		<StackPanel DockPanel.Dock="Top" Margin="0 0 0 10">
 			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBox Grid.Column="0"
+				
+				<TextBox Grid.Row="0" Grid.Column="0"
 						 Text="{Binding FilePath, Mode=TwoWay}"
 						 Margin="0 0 10 0"
 						 IsEnabled="False"
 						 Watermark="Ruta del archivo" />
-				<Button Grid.Column="1"
+				<Button Grid.Row="0" Grid.Column="1"
 						Content="Abrir Archivo"
 						Command="{Binding OpenFileCommand}"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"
 						Background="#2f5690"
 						MinWidth="150" />
+
+				<TextBox Grid.Row="1" Grid.Column="0"
+						 Text="{Binding MessageFilter, Mode=TwoWay}"
+						 Margin="0 10 10 0"
+						 Watermark="Filtrar mensajes" />
+				<Button Grid.Row="1" Grid.Column="1"
+						Content="Aplicar Filtro"
+						Command="{Binding ApplyFilterCommand}"
+						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Center"
+						Background="#2f5690"
+						Margin="0 10 0 0"
+						MinWidth="150" />
 			</Grid>
 		</StackPanel>
 		<DataGrid DockPanel.Dock="Bottom"
 				  Name="myDataGrid"
-				  ItemsSource="{Binding Logs}"
+				  ItemsSource="{Binding FilteredLogs}"
 				  AutoGenerateColumns="False"
-				  IsReadOnly="True"
+				  IsReadOnly="False"
 				  GridLinesVisibility="All"
 				  BorderThickness="1"
 				  BorderBrush="Gray"
