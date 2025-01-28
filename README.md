@@ -2,7 +2,6 @@
 
 **WildflyViewLog** es una aplicación de escritorio desarrollada con [AvaloniaUI](https://avaloniaui.net/) en C#. Su propósito principal es leer archivos JSON, extraer información clave y permitir al usuario guardarla como un archivo de texto (TXT).
 
-## Captura de pantalla
 ![alt text](https://raw.githubusercontent.com/allydevper/WildflyViewLog/refs/heads/main/show.png)
 
 ## Características
