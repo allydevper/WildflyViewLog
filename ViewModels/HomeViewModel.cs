@@ -79,6 +79,9 @@ namespace WildflyViewLog.ViewModels
                             .Select(s => s.Message).Reverse()
                             .SkipWhile(s => !s.Contains(SearchInFilePath, StringComparison.OrdinalIgnoreCase));
 
+                        if (CheckSameLine)
+                            newdata = GetFormarData(newdata);
+
                         if (newdata.Any())
                         {
                             Directory.CreateDirectory(subfolderPath);
