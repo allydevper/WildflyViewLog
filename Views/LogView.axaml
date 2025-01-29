@@ -55,7 +55,9 @@
 				  BorderThickness="1"
 				  BorderBrush="Gray"
 				  SelectionMode="Single"
-				  CanUserSortColumns="False">
+				  CanUserSortColumns="False"
+				  CanUserResizeColumns="True"
+				  HorizontalScrollBarVisibility="Auto">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="*" />
 				<DataGridTextColumn Header="Archivo Fuente" Binding="{Binding SourceFile}" Width="200" />
