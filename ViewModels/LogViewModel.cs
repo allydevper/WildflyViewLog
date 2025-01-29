@@ -5,10 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WildflyViewLog.Enum;
 using WildflyViewLog.Services;
+using Avalonia.Controls;
+using Avalonia; // Importar Avalonia.Controls
 
 namespace WildflyViewLog.ViewModels;
 
@@ -24,19 +27,6 @@ public partial class LogViewModel : ViewModelBase
     {
         Logs = new ObservableCollection<LogEntry>();
         FilteredLogs = new ObservableCollection<LogEntry>();
-    }
-
-    [RelayCommand]
-    private void ApplyFilter()
-    {
-        FilteredLogs.Clear();
-        foreach (var log in Logs)
-        {
-            if (string.IsNullOrEmpty(MessageFilter) || log.Message.Contains(MessageFilter, StringComparison.OrdinalIgnoreCase))
-            {
-                FilteredLogs.Add(log);
-            }
-        }
     }
 
     [RelayCommand]

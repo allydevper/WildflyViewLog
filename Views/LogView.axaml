@@ -38,7 +38,7 @@
 						 Watermark="Filtrar mensajes" />
 				<Button Grid.Row="1" Grid.Column="1"
 						Content="Aplicar Filtro"
-						Command="{Binding ApplyFilterCommand}"
+						Click="ApplyFilter"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"
 						Background="#2f5690"
