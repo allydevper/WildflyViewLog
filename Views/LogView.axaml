@@ -27,6 +27,7 @@
 				<Button Grid.Row="0" Grid.Column="1"
 						Content="Abrir Archivo"
 						Command="{Binding OpenFileCommand}"
+						Click="OpenFile"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"
 						Background="#2f5690"

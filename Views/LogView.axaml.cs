@@ -8,10 +8,16 @@ namespace WildflyViewLog.Views;
 
 public partial class LogView : UserControl
 {
+    private int _currentFilteredIndex = -1;
     public LogView()
     {
         InitializeComponent();
         DataContext = new LogViewModel();
+    }
+
+    private void OpenFile(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        _currentFilteredIndex = -1;
     }
 
     private void ApplyFilter(object sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -26,11 +32,20 @@ public partial class LogView : UserControl
             .Where(log => log.Message.Contains(viewModel.MessageFilter, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        if (filteredLogs.Count > 0)
+        if (filteredLogs.Count == 0)
         {
-            var firstMatch = filteredLogs.First();
-            PositionOnLog(firstMatch);
+            _currentFilteredIndex = -1;
+            return;
         }
+
+        _currentFilteredIndex++;
+        if (_currentFilteredIndex >= filteredLogs.Count)
+        {
+            _currentFilteredIndex = 0;
+        }
+
+        var nextMatch = filteredLogs[_currentFilteredIndex];
+        PositionOnLog(nextMatch);
     }
 
     private void PositionOnLog(LogEntry logEntry)
