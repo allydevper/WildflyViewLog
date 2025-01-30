@@ -1,41 +1,64 @@
 # WildflyViewLog
 
-**WildflyViewLog** es una aplicación de escritorio desarrollada con [AvaloniaUI](https://avaloniaui.net/) en C#. Su propósito principal es leer archivos JSON, extraer información clave y permitir al usuario guardarla como un archivo de texto (TXT).
+WildflyViewLog es una aplicación de escritorio desarrollada con Avalonia UI para visualizar y filtrar logs de Wildfly.
 
 ![alt text](https://raw.githubusercontent.com/allydevper/WildflyViewLog/refs/heads/main/show.png)
 
 ## Características
-- **Interfaz intuitiva**: Permite cargar y procesar archivos JSON fácilmente.
-- **Guardar información**: Extrae información específica y la guarda en formato TXT.
-- **Filtros avanzados**: Incluye opciones para buscar contenido dentro del JSON y descargar archivos relacionados.
-- **Combinar txt**: Incluye opcion para combinar archivos formato TXT.
-- **Compatibilidad multiplataforma**: Funciona en Windows, macOS y Linux gracias a AvaloniaUI.
 
-## Requisitos del sistema
-- **.NET Core 6.0 o superior** instalado en el sistema.
-- Sistema operativo compatible: Windows, macOS o Linux.
+- Abrir archivos de log en formato `.txt`.
+- Filtrar mensajes de log por contenido.
+- Navegar a la primera coincidencia del filtro aplicado.
+- Guardar logs filtrados.
+- Interfaz de usuario moderna y responsiva.
+
+## Requisitos
+
+- .NET 8.0 o superior
+- Avalonia UI 11.2.1
+- CommunityToolkit.Mvvm 8.2.1
+- MessageBox.Avalonia 3.2.0
+- Newtonsoft.Json 13.0.3
 
 ## Instalación
 
- 1. Clona este repositorio en tu máquina local:
-    https://github.com/allydevper/WildflyViewLog.git
+1. Clona el repositorio:
+    ```sh
+    git clone https://github.com/tu-usuario/WildflyViewLog.git
+    ```
 
- 2. Ve al directorio del proyecto:
-    cd wildflyviewlog
+2. Navega al directorio del proyecto:
+    ```sh
+    cd WildflyViewLog
+    ```
 
- 3. Compila y ejecuta el proyecto:
-    dotnet run
-    
+3. Restaura las dependencias del proyecto:
+    ```sh
+    dotnet restore
+    ```
+
+4. Compila el proyecto:
+    ```sh
+    dotnet build
+    ```
+
 ## Uso
 
- 1. Haz clic en el botón **Abrir** y selecciona un archivo JSON desde tu
-    sistema.
- 2. Usa las opciones de filtrado para buscar contenido dentro del
-    archivo.
- 3. Guarda la información procesada en un archivo TXT con el botón
-    **Guardar**.
- 4. (Opcional) Marca la casilla **Descargar Relacionados** para manejar
-    contenido relacionado adicional.
+1. Ejecuta la aplicación:
+    ```sh
+    dotnet run
+    ```
+
+2. Usa el botón "Abrir Archivo" para seleccionar un archivo de log en formato `.txt`.
+
+3. Usa el campo de texto "Filtrar mensajes" para ingresar el texto que deseas filtrar y haz clic en "Aplicar Filtro".
+
+4. Navega a la primera coincidencia del filtro aplicado en el `DataGrid`.
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio que desees realizar.
 
 ## Licencia
-Este proyecto está licenciado bajo la MIT License.
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
