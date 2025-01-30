@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HarfBuzzSharp;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,9 +18,9 @@ namespace WildflyViewLog.ViewModels
 {
     public partial class HomeViewModel : ViewModelBase
     {
-        [ObservableProperty] private string _searchInFilePath = "";
-        [ObservableProperty] private string _filePath = "";
-        [ObservableProperty] private ConcurrentBag<(string FilePath, string Message)> _dataLog = [];
+        [ObservableProperty] private string _searchInFilePath = string.Empty;
+        [ObservableProperty] private string _filePath = string.Empty;
+        [ObservableProperty] private ConcurrentBag<(string FilePath, string Message)> _dataLog = new();
         [ObservableProperty] private string _logPathJson = "/opt/wildfly/standalone/log";
 
         public HomeViewModel()
@@ -39,8 +37,8 @@ namespace WildflyViewLog.ViewModels
                 if (file is null) return;
 
                 FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
-
                 DataLog = GetSelectData(FilePath, LogPathJson);
+
                 foreach (var item in DataLog.Select(s => s.FilePath).Distinct().Order())
                 {
                     SelectionItems.Add(item);
@@ -67,26 +65,21 @@ namespace WildflyViewLog.ViewModels
 
                     string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
                     string subfolderPath = Path.Combine(Uri.UnescapeDataString(folder.Path.AbsolutePath), timestamp);
-
-                    string rutaCarpeta = (Path.GetDirectoryName(SelectedItem) ?? "").Remove(0, 1).Split("\\")[0];
+                    string rutaCarpeta = (Path.GetDirectoryName(SelectedItem) ?? string.Empty).Remove(0, 1).Split("\\")[0];
 
                     foreach (var _selectItem in SelectionItems.Where(s => s.Contains(rutaCarpeta)))
                     {
                         string nombreSinExtension = Path.GetFileNameWithoutExtension(_selectItem);
-
-                        var newdata = DataLog
-                            .Where(s => s.FilePath.Equals(_selectItem))
-                            .Select(s => s.Message).Reverse()
-                            .SkipWhile(s => !s.Contains(SearchInFilePath, StringComparison.OrdinalIgnoreCase));
+                        var newdata = FilterDataLog(_selectItem);
 
                         if (CheckSameLine)
-                            newdata = GetFormarData(newdata);
+                            newdata = GetFormattedData(newdata);
 
                         if (newdata.Any())
                         {
                             Directory.CreateDirectory(subfolderPath);
                             string filePath = Path.Combine(subfolderPath, $"{nombreSinExtension}.txt");
-                            File.WriteAllLines(filePath, newdata);
+                            await File.WriteAllLinesAsync(filePath, newdata);
                         }
                     }
                 }
@@ -96,17 +89,14 @@ namespace WildflyViewLog.ViewModels
                     var file = await FilePickerService.SaveFileAsync(nombreSinExtension);
                     if (file is null) return;
 
-                    var newdata = DataLog
-                        .Where(s => s.FilePath.Equals(SelectedItem))
-                        .Select(s => s.Message).Reverse()
-                        .SkipWhile(s => !s.Contains(SearchInFilePath, StringComparison.OrdinalIgnoreCase));
+                    var newdata = FilterDataLog(SelectedItem);
 
                     if (CheckSameLine)
-                        newdata = GetFormarData(newdata);
+                        newdata = GetFormattedData(newdata);
 
                     if (newdata.Any())
                     {
-                        File.WriteAllLines(file.Path.AbsolutePath, newdata);
+                        await File.WriteAllLinesAsync(file.Path.AbsolutePath, newdata);
                     }
                 }
             }
@@ -116,10 +106,19 @@ namespace WildflyViewLog.ViewModels
             }
         }
 
-        private static List<string> GetFormarData(IEnumerable<string> lines)
+        private IEnumerable<string> FilterDataLog(string filePath)
         {
-            List<string> formattedLines = [];
-            StringBuilder buffer = new();
+            return DataLog
+                .Where(s => s.FilePath.Equals(filePath))
+                .Select(s => s.Message)
+                .Reverse()
+                .SkipWhile(s => !s.Contains(SearchInFilePath, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static List<string> GetFormattedData(IEnumerable<string> lines)
+        {
+            var formattedLines = new List<string>();
+            var buffer = new StringBuilder();
 
             foreach (var line in lines)
             {
@@ -147,14 +146,11 @@ namespace WildflyViewLog.ViewModels
 
         private static bool IsLineWithDate(string line)
         {
-            if (line.Length >= 10 && line[..10].Contains('-'))
-            {
-                return DateTime.TryParseExact(line[..10], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
-            }
-            return false;
+            return line.Length >= 10 && line[..10].Contains('-') &&
+                   DateTime.TryParseExact(line[..10], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
         }
 
-        private static ConcurrentBag<(string FilePath, string Message)> GetSelectData(String path, string logPathJson)
+        private static ConcurrentBag<(string FilePath, string Message)> GetSelectData(string path, string logPathJson)
         {
             var data = new ConcurrentBag<(string FilePath, string Message)>();
 
