@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace WildflyViewLog.ViewModels
     {
         [ObservableProperty] private string _searchInFilePath = string.Empty;
         [ObservableProperty] private string _filePath = string.Empty;
-        [ObservableProperty] private ConcurrentBag<(string FilePath, string Message)> _dataLog = new();
+        [ObservableProperty] private List<(string FilePath, string Message)> _dataLog = new();
         [ObservableProperty] private string _logPathJson = "/opt/wildfly/standalone/log";
 
         public HomeViewModel()
@@ -37,7 +36,11 @@ namespace WildflyViewLog.ViewModels
                 if (file is null) return;
 
                 FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
+                long milliseconds = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                System.Diagnostics.Debug.WriteLine("Current time in milliseconds: " + milliseconds);
                 DataLog = GetSelectData(FilePath, LogPathJson);
+                long milliseconds2 = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                System.Diagnostics.Debug.WriteLine("Current time in milliseconds2: " + milliseconds2);
 
                 foreach (var item in DataLog.Select(s => s.FilePath).Distinct().Order())
                 {
@@ -150,23 +153,19 @@ namespace WildflyViewLog.ViewModels
                    DateTime.TryParseExact(line[..10], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
         }
 
-        private static ConcurrentBag<(string FilePath, string Message)> GetSelectData(string path, string logPathJson)
+        private static List<(string FilePath, string Message)> GetSelectData(string path, string logPathJson)
         {
-            var data = new ConcurrentBag<(string FilePath, string Message)>();
-
-            foreach (var line in File.ReadLines(path))
-            {
-                if (!string.IsNullOrWhiteSpace(line))
-                {
-                    var val = JsonConvert.DeserializeObject<WildflyData>(line);
-                    if (val != null)
-                    {
-                        data.Add((val.Labels.FilePath.Replace(logPathJson, ""), val.JsonPayload.Message));
-                    }
-                }
-            }
-
-            return data;
+            return File.ReadLines(path)
+                    .AsParallel()
+                    .AsOrdered()
+                    .Where(line => !string.IsNullOrWhiteSpace(line))
+                    .Select(line => JsonConvert.DeserializeObject<WildflyData>(line))
+                    .Where(val => val != null)
+                    .Select(val => (
+                        val?.Labels.FilePath.Replace(logPathJson, "") ?? "",
+                        val?.JsonPayload.Message ?? ""
+                    ))
+                    .ToList();
         }
     }
 }
