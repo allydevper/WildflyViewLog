@@ -114,7 +114,7 @@ namespace WildflyViewLog.ViewModels
             return DataLog
                 .Where(s => s.FilePath.Equals(filePath))
                 .Select(s => s.Message)
-                .Reverse()
+                //.Reverse()
                 .SkipWhile(s => !s.Contains(SearchInFilePath, StringComparison.OrdinalIgnoreCase));
         }
 
