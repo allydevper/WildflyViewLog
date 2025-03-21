@@ -1,4 +1,4 @@
-# WildflyViewLog.
+# WildflyViewLog
 
 WildflyViewLog es una aplicación de escritorio desarrollada con Avalonia UI para visualizar y filtrar logs de Wildfly.
 
